@@ -1,0 +1,16 @@
+tracemode: false
+debugmode: false
+
+pidfile: "/run/pfwd/pfwd.pid"
+
+loglevel: "info"
+logdir: "/var/log/pfwd"
+logmode: 0644
+
+forwards:
+ "127.0.0.1:8981":
+  dst: "localhost:3306"
+ "127.0.0.1:8982":
+  dst: "localhost:5432"
+ "127.0.0.1:8983":
+  dst: "localhost:6379"
