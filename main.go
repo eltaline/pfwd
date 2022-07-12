@@ -60,6 +60,8 @@ var (
 
 	pidfile string = "/run/pfwd/pfwd.pid"
 
+	conntimeout time.Duration = 60 * time.Second
+
 	esettings = make(map[string]string)
 )
 
@@ -116,6 +118,7 @@ func main() {
 	v.StringRule("loglevel", "required|string|in:trace,debug,info,warn,error,fatal,panic")
 	v.StringRule("logdir", "required|string|unixPath")
 	v.StringRule("logmode", "required|uint")
+	v.StringRule("conntimeout", "required|uint")
 
 	if !v.Validate() {
 		fmt.Println(v.Errors)
@@ -237,6 +240,8 @@ func main() {
 
 	}
 
+	conntimeout = time.Duration(config.Int("conntimeout")) * time.Second
+
 	appLogger.Info().Msgf("Starting pfwd service [%s]", version)
 
 	appLogger.Info().Msgf("Trace mode: [%t]", tracemode)
@@ -247,6 +252,8 @@ func main() {
 	appLogger.Info().Msgf("Log level: [%s]", loglevel)
 	appLogger.Info().Msgf("Log directory: [%s]", logdir)
 	appLogger.Info().Msgf("Log mode: [%v]", logmode)
+
+	appLogger.Info().Msgf("Connection timeout: [%d]", config.Int("conntimeout"))
 
 	// Populate path settings
 
@@ -339,7 +346,7 @@ func main() {
 
 						appLogger.Info().Msgf("Connection from | Address [%s]", s.RemoteAddr())
 
-						d, err := net.Dial("tcp", dst)
+						d, err := net.DialTimeout("tcp", dst, conntimeout)
 						appLogger.Info().Msgf("Connection from | Address [%s]", s.RemoteAddr())
 						if err != nil {
 

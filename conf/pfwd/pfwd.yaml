@@ -7,6 +7,8 @@ loglevel: "info"
 logdir: "/var/log/pfwd"
 logmode: 0644
 
+conntimeout: 60
+
 forwards:
  "127.0.0.1:8981":
   dst: "localhost:3306"
