@@ -347,7 +347,6 @@ func main() {
 						appLogger.Info().Msgf("Connection from | Address [%s]", s.RemoteAddr())
 
 						d, err := net.DialTimeout("tcp", dst, conntimeout)
-						appLogger.Info().Msgf("Connection from | Address [%s]", s.RemoteAddr())
 						if err != nil {
 
 							appLogger.Error().Msgf("Can`t dial to address | Address [%s] | %v", dst, err)
