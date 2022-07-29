@@ -361,7 +361,7 @@ func main() {
 
 						appLogger.Info().Msgf("Connected to | Address [%s]", dst)
 
-						// Initiate continoous communication
+						// Initiate continuous communication
 
 						go Forward(s, d)
 						go Forward(d, s)
